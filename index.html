@@ -8,31 +8,40 @@
         img{
             position: absolute;
             display: block;
-            left: calc(50vw - 300px);
+            left: calc(50vw - 200px);
         }
 
         canvas{
             position: absolute;
             display: block;
-            left: calc(50vw - 300px);
+            left: calc(50vw - 200px);
+        }
+
+        footer{
+            font-family: 'Courier New', Courier, monospace;
+            position: absolute;
+            text-align: center;
+            width: 100%;
+            top: 420px;
         }
     </style>
 </head>
 <body>
-    <img src="bg-clock.png" width="600"/>
-    <canvas width="600" height="600" id="myCanvas"></canvas>
+    <img src="bg-clock.png" width="400"/>
+    <canvas width="400" height="400" id="myCanvas"></canvas>
+    <footer>by <a href="https://github.com/shidec/jam-analog" target="_blank">Shidec</a></footer>
 </body>
 <script>
-    const centerX = 297; //posisi tengah jam
-    const centerY = 295; //posisi tengah jam
+    const centerX = 197; //posisi tengah jam
+    const centerY = 195; //posisi tengah jam
 
-    const lengthHour = 130; //panjang jarum jam
+    const lengthHour = 86; //panjang jarum jam
     const widthHour = 10; //tebal jarum jam
     
-    const lengthMinute = 180; //panjang jarum menit
+    const lengthMinute = 120; //panjang jarum menit
     const widthMinute = 6; //tebal jarum menit
     
-    const lengthSecond = 200; //panjang jarum detik
+    const lengthSecond = 133; //panjang jarum detik
     const widthSecond = 1; //tebal jarum detik
 
     const canvas = document.getElementById("myCanvas"); //dapatkan element canvas
@@ -44,19 +53,31 @@
 
         ctx.clearRect(0, 0, canvas.width, canvas.height); //hapus gambar saat ini
         
-        drawArrowHour(date.getHours()); //gambar jarum jam
-        drawArrowMinute(date.getMinutes()); //gambar jarum menit
-        drawArrowSecond(date.getSeconds()); //gambar jarum detik
+        //nilai jam dihitung berdasarkan jam, menit dan detik saat ini 
+        //misal jika jam = 4, menit = 30 , detik = 15
+        //jam = 4 + 30 / 60 + 15 / 3600 = 4 + 0.5 + 0.00416 = 4.50416 
+        //jadi posisi jarum jam ada di antara angka 4 dan 5
+        const hour = date.getHours() + date.getMinutes() / 60  + date.getSeconds() / 3600;
+
+        //nilai menit dihitung berdasarkan menit dan detik saat ini
+        //misal jika menit = 15 , detik = 30
+        //minute = 15 + 30 / 60 = 15.5
+        //jadi posisi jarum menit di tengah antara detik ke 15 dan 16
+        const minute = date.getMinutes() + date.getSeconds() / 60;
+
+        drawHour(hour); //gambar jarum jam
+        drawMinute(minute); //gambar jarum menit
+        drawSecond(date.getSeconds()); //gambar jarum detik
         
         //-- Gambar bulatan di tengah jam untuk menutupi pangkal jarum
         ctx.beginPath();
         ctx.fillStyle = '#dddddd';
-        ctx.arc(centerX, centerY, 12, 0, 2 * Math.PI);
+        ctx.arc(centerX, centerY, 9, 0, 2 * Math.PI);
         ctx.fill();
 
     }, 1000);
 
-    function drawArrowHour(value){
+    function drawHour(value){
         // hitung sudut jarum jam
         // sudut dalam radian
         // rumus asli mengubah sudut derajat menjadi radian adalah:
@@ -82,11 +103,11 @@
         ctx.lineWidth = widthHour;
         //tentukan warna jarum jam
         ctx.strokeStyle = '#2b1100';
-        //gambarkan
+        //gambarkan garisnya
         ctx.stroke();
     }
 
-    function drawArrowMinute(value){
+    function drawMinute(value){
         // hitung sudut jarum menit
         // sudut dalam radian
         // rumus asli mengubah sudut derajat menjadi radian adalah:
@@ -112,11 +133,11 @@
         ctx.lineWidth = widthMinute;
         //tentukan warna jarum menit
         ctx.strokeStyle = '#2b1100';
-        //gambarkan
+        //gambarkan garisnya
         ctx.stroke();
     }
 
-    function drawArrowSecond(value){
+    function drawSecond(value){
         // hitung sudut jarum menit
         // sudut dalam radian
         // rumus asli mengubah sudut derajat menjadi radian adalah:
@@ -141,7 +162,7 @@
         ctx.lineWidth = widthSecond;
         //tentukan warna jarum detik
         ctx.strokeStyle = '#ff0000';
-        //gambarkan
+        //gambarkan garisnya
         ctx.stroke();
     }
 
