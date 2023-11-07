@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Create analog clock with HTML5 Canvas">
+    <meta name="keywords" content="HTML5, Canvas, JavaScript">
+    <meta name="author" content="Soesapto Joeni Hantoro">
     <title>Jam Analog</title>
     <style>
         img{
@@ -51,7 +54,9 @@
     setInterval(function(){
         const date = new Date(); //buat object Date sesuai dengan waktu saat ini
 
-        ctx.clearRect(0, 0, canvas.width, canvas.height); //hapus gambar saat ini
+        //hapus gambar sebelumnya
+        //coba hapus/komen baris ini untuk melihat hasilnya jika gambar sebelumnya tidak dihapus
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
         
         //nilai jam dihitung berdasarkan jam, menit dan detik saat ini 
         //misal jika jam = 4, menit = 30 , detik = 15
@@ -70,10 +75,16 @@
         drawSecond(date.getSeconds()); //gambar jarum detik
         
         //-- Gambar bulatan di tengah jam untuk menutupi pangkal jarum
+        //mulai menggambar
         ctx.beginPath();
+        //warna bulatan
         ctx.fillStyle = '#dddddd';
+        //menggambar bulatan menggunakan fungsi arc(posisiX, posisiY, sudutAwal, sudutAkhir)
+        //menggambar mulai sudut awal 0, dan akhir 2*PI berarti menggambar satu lingkaran penuh
         ctx.arc(centerX, centerY, 9, 0, 2 * Math.PI);
+        //gambarkan isi/arsirannya
         ctx.fill();
+        //ada dua pilihan untuk menggambar yaitu fill() dan stroke() , lihat contoh stroke() di bawah
 
     }, 1000);
 
