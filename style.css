@@ -1,0 +1,19 @@
+img{
+    position: absolute;
+    display: block;
+    left: calc(50vw - 200px);
+}
+
+canvas{
+    position: absolute;
+    display: block;
+    left: calc(50vw - 200px);
+}
+
+footer{
+    font-family: 'Courier New', Courier, monospace;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    top: 420px;
+}
